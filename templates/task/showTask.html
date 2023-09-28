@@ -4,7 +4,7 @@
 {% block taskContent%}
 
 <div class="row mx-5 ">
-    <div class="col-sm-12 col-md-10 mx-auto">
+    <div class="col-12 col-sm-11 col-lg-10 mx-auto">
         <h3 class="text-center">All Task List</h3>
 
         <div class="d-flex justify-content-end">
@@ -23,7 +23,53 @@
             </div>
         </div>
 
-        
+        <!-- <div>
+            <div>
+                <form action="{% url 'home' %}" method="POST">
+                    <div>
+                        
+                    </div>
+                    <div></div>
+                    <div></div>
+                    <div>
+                        <button>Filter</button>
+                    </div>
+                </form>
+            </div>
+        </div> -->
+
+        <form method="POST" action="{% url 'home' %}" class="row mb-4">
+            {% csrf_token %}
+            <div class="col-12 mb-2 mb-md-0 col-sm-6 col-md-3">
+                <label class="mb-1" >Creation Date:</label>
+                <input type="date" name="creation_date"  class="form-control" >
+            </div>
+            <div class="col-12 mb-2 mb-md-0 col-sm-6 col-md-3">
+                <label class="mb-1" >Due Date:</label>
+                <input type="date" name="due_date"  class="form-control" />
+            </div>
+            <div class="col-12 mb-2 mb-md-0 col-sm-5 col-md-2">
+                <label class="mb-1"  >Priority:</label>
+                <select name="priority" class="form-select">
+                    <option value="" disabled>Select Priority</option>
+                    <option value="Low" >Low</option>
+                    <option value="Medium" >Medium</option>
+                    <option value="High" >High</option>
+                </select>
+            </div>
+            <div class="col-12 mb-2 mb-md-0 col-sm-5 col-md-2 ">
+                <label class="mb-1" >Mark as: </label>
+                <select name="mark"  class="form-select">
+                    <option value="" disabled>Select</option>
+                    <option value="true" >Completed</option>
+                    <option value="false" >Pending</option>
+                </select>
+            </div>
+            
+            <div class="col-12 col-sm-2 col-md-2 d-flex justify-content-end align-items-center  mt-3">
+                <button type="submit" class="btn btn-success">Filter</button>
+            </div>
+        </form>
         
 
         <div class="">
@@ -45,17 +91,23 @@
                         <td>{{t.title}}</td>
                         <td>{{t.priority}}</td>
                         <td>{{t.due_date}}</td>
-                        <td>{{t.is_complete}}</td>
+                        <td>
+                            {% if t.is_complete %}
+                            Completed
+                            {% else %}
+                            Pending
+                            {% endif %}
+                        </td>
                         <td>
 
                             <a href="{% url 'details-task' pk=t.id %}"
-                                class="btn btn-outline-primary btn-sm mx-2">Details</a>
-                            <a href="{% url 'edit-task' pk=t.id %}" class="btn btn-outline-success btn-sm mx-2">Edit</a>
+                                class="btn btn-outline-primary btn-sm mx-2 my-1">Details</a>
+                            <a href="{% url 'edit-task' pk=t.id %}" class="btn btn-outline-success btn-sm mx-2 my-1">Edit</a>
                             <!-- <form class="d-inline" method="POST" action="{% url 'delete-task' pk=t.id %}">
                                 {% csrf_token %}
                                 <button type="submit" class="btn btn-outline-danger btn-sm mx-2">Delete</button>
                             </form> -->
-                            <button type="button" class="btn btn-outline-danger btn-sm mx-2" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                            <button type="button" class="btn btn-outline-danger btn-sm mx-2 my-1" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
                                 Delete
                               </button>
 

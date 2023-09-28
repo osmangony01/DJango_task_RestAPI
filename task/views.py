@@ -5,10 +5,16 @@ from . form import  TaskForm, TaskImageForm
 # from django.forms import formset_factory
 from django.forms import modelformset_factory
 from . models import Task, TaskImage
+from datetime import date, datetime
+import json
+from django.contrib.auth.decorators import login_required
+
+# @login_required(login_url="login")
 
 # Create your views here.
 class AllTaskView(TemplateView):
     template_name = 'task/showTask.html'
+    
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         task = Task.objects.all()
@@ -17,11 +23,56 @@ class AllTaskView(TemplateView):
         return context
     
     def post(self, request, *args, **kwargs):
+        
         search_title = request.POST.get('search_title', '') 
-        tasks = Task.objects.filter(title__icontains=search_title)
-        print(search_title)
+        if search_title:
+            tasks = Task.objects.filter(title__icontains=search_title)
+            print('search :: '+search_title)
+        else:
+            #tasks = Task.objects.all()
+            
+            creation_date = request.POST.get('creation_date', '')
+            due_date = request.POST.get('due_date', '')
+            priority = request.POST.get('priority', '')
+            is_complete = request.POST.get('mark', '')
+            
+            # print(creation_date, due_date, priority, is_complete)
+            
+            
+          
+            # Start with all tasks
+            tasks = Task.objects.all()
+
+            # Apply filters based on criteria
+            if creation_date:
+                print('create_date :'+creation_date)
+                # Filter by creation date
+                input_creation_date = datetime.strptime(creation_date, '%Y-%m-%d').date()
+                tasks = tasks.filter(created_at__gte=input_creation_date)
+
+            if due_date:
+                print('due date :'+ due_date)
+                # Filter by due date
+                input_due_date = datetime.strptime(due_date, '%Y-%m-%d').date()
+                tasks = tasks.filter(due_date__gte=input_due_date)
+
+            if priority:
+                print('priority :' +priority)
+                # Filter by priority
+                tasks = tasks.filter(priority__icontains=priority)
+
+            if is_complete:
+                # Filter by completion status
+                print('mark :'+is_complete)
+                status = json.loads(is_complete.lower())
+                tasks = tasks.filter(is_complete=status)
+            
+                
+        
         context = { 'task': tasks}
+        
         return render(request, self.template_name, context)
+        #return redirect('home', context)
     
 
 class AddTaskView(TemplateView):

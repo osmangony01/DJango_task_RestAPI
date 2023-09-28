@@ -45,7 +45,12 @@
                     Mark as complete :
                 </div>
                 <div class="col-12  col-sm-8">
-                    {{task.is_complete}}
+
+                    {% if task.is_complete %}
+                    Completed
+                    {% else %}
+                    Pending
+                    {% endif %}
                 </div>
             </div>
             <hr />
