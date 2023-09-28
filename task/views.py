@@ -16,6 +16,10 @@ class AllTaskView(TemplateView):
         context = {'task':task}
         return context
     
+    def post(self, request, *args, **kwargs):
+        search_title = request.POST.get('search_title', '') 
+        print(search_title)
+    
 
 class AddTaskView(TemplateView):
     template_name = "task/addTask.html"
@@ -53,8 +57,7 @@ class EditTaskView(View):
         fm = TaskForm(instance=task)
         
         # for task_image in task_images:
-        #     print(f"Image: {task_image.image.url}")
-            
+        #     print(f"Image: {task_image.image.url}")  
         context = {'fm':fm}
         return render(request, 'task/editTask.html', context) 
     
@@ -83,3 +86,4 @@ class DetailsTaskView(TemplateView):
         task_images = TaskImage.objects.filter(task=pk)
         context = {'task':task, 'images':task_images}
         return render(request, 'task/detailsTask.html', context) 
+

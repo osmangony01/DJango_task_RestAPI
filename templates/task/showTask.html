@@ -6,9 +6,17 @@
 <div class="row mx-5 ">
     <div class="col-sm-12 col-md-10 mx-auto">
         <h3 class="text-center">All Task List</h3>
+
         <div class="d-flex justify-content-end">
             <a href="{% url 'add-task' %}" class="btn btn-primary">Create Task</a>
         </div>
+
+        <div class="mb-4 row mt-2">
+            <div class="col-12 col-sm-8 col-md-5">
+                
+            </div>
+        </div>
+
         <div class="">
             {% if task %}
             <table class="table table-striped">
