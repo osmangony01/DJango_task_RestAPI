@@ -9,14 +9,29 @@
         <div class="px-4">
             <form class="" method="POST" action="" enctype="multipart/form-data">
                 {% csrf_token %}
-                <div class="mb-2">
-                    <label for="">Title</label>
+                <div class="mb-3">
+                    <label class="mb-1" >Title</label>
                     {{fm.title}}
                 </div>
+            
                 <div class="mb-3">
-                    <label for="">Image</label>
-                    <input type="file" name="image" class="form-control" multiple />
+                    <label class="mb-1" >Due Date</label>
+                    {{fm.due_date }}
                 </div>
+                <div class="mb-3">
+                    <label class="mb-1" >Priority</label>
+                    {{fm.priority}}
+                </div>
+                <div class="my-4">
+                    <label  class="me-4"> Mark as complete</label>
+                    {{fm.is_complete}}
+                </div>
+
+                <div class="mb-3">
+                    <label class="mb-1">Description</label>
+                    {{fm.description}}
+                </div>
+                
 
                 <div class="mb-3">
                     <button type="submit" class="btn btn-primary">Create</button>

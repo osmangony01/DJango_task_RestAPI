@@ -10,17 +10,25 @@
             <a href="{% url 'add-task' %}" class="btn btn-primary">Create Task</a>
         </div>
         <div class="">
+            {% if task %}
             <table class="table table-striped">
                 <thead>
                     <tr>
                         <th>Title</th>
+                        <th>Priority</th>
+                        <th>Due Date</th>
+                        <th>Mark</th>
                         <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
+                    
                     {% for t in task%}
                     <tr>
                         <td>{{t.title}}</td>
+                        <td>{{t.priority}}</td>
+                        <td>{{t.due_date}}</td>
+                        <td>{{t.is_complete}}</td>
                         <td>
 
                             <a href="{% url 'details-task' pk=t.id %}"
@@ -63,6 +71,7 @@
                     {% endfor %}
                 </tbody>
             </table>
+            {% endif %}
         </div>
     </div>
 </div>

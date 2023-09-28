@@ -12,6 +12,7 @@ class AllTaskView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         task = Task.objects.all()
+        print(task)
         context = {'task':task}
         return context
     
@@ -28,7 +29,7 @@ class AddTaskView(TemplateView):
     
     def post(self, request, *args, **kwargs):
         task_form = TaskForm(request.POST)
-        
+        print(task_form)
         if task_form.is_valid():
             task = task_form.save()  # Create the Task
 
@@ -46,19 +47,23 @@ class EditTaskView(View):
     #template_name = 'task/editTask.html'
     def get(self, request, pk):
         task = Task.objects.get(id=pk)
-        print(task)
+        #print(task)
         task_images = TaskImage.objects.filter(task=pk)
-        print(task_images)
+        #print(task_images)
         fm = TaskForm(instance=task)
         
-        for task_image in task_images:
-            print(f"Image: {task_image.image.url}")
+        # for task_image in task_images:
+        #     print(f"Image: {task_image.image.url}")
             
-        context = {'task':task, 'images':task_images, 'fm':fm}
+        context = {'fm':fm}
         return render(request, 'task/editTask.html', context) 
     
-    def post(self, request, *args, **kwargs):
-        pass
+    def post(self, request, pk):
+        task = Task.objects.get(id=pk)
+        fm =TaskForm(request.POST, instance=task)
+        if fm.is_valid():
+            fm.save()
+        return redirect('home')
     
     
 

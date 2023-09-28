@@ -5,11 +5,89 @@
 
 <div class="row">
     <div class="col-md-8 col-sm-10 border px-5 py-3 mx-auto">
-        <h3 class="text-center pb-3">Task Details</h3>
-        <div class="px-5">
-            <div>
-                
+        <h3 class="text-center pb-2">Task Details</h3>
+        <div class="d-flex justify-content-end mb-2">
+            <a href="{% url 'home' %}" class="btn btn-primary">Back to Home</a>
+        </div>
+        <div class="px-2">
+            <div class='row'>
+                <div class="col-12 col-sm-4 d-flex justify-content-start justify-content-sm-end fw-bold">
+                    Title :
+                </div>
+                <div class="col-12 col-sm-8">
+                    {{task.title}}
+                </div>
             </div>
+            <hr />
+
+            <div class='row'>
+                <div class="col-12  col-sm-4 d-flex  justify-content-start justify-content-sm-end fw-bold">
+                    Priority :
+                </div>
+                <div class="col-12  col-sm-8">
+                    {{task.priority}}
+                </div>
+            </div>
+            <hr />
+
+            <div class='row'>
+                <div class="col-12  col-sm-4 d-flex  justify-content-start justify-content-sm-end fw-bold">
+                    Due Date :
+                </div>
+                <div class="col-12  col-sm-8">
+                    {{task.due_date}}
+                </div>
+            </div>
+            <hr />
+
+            <div class='row'>
+                <div class="col-12  col-sm-4 d-flex  justify-content-start justify-content-sm-end fw-bold">
+                    Mark as complete :
+                </div>
+                <div class="col-12  col-sm-8">
+                    {{task.is_complete}}
+                </div>
+            </div>
+            <hr />
+
+            <div class='row'>
+                <div class="col-12  col-sm-4 d-flex  justify-content-start justify-content-sm-end fw-bold">
+                    Task creation date :
+                </div>
+                <div class="col-12  col-sm-8">
+                    {{task.created_at}}
+                </div>
+            </div>
+            <hr />
+
+            <div class='row'>
+                <div class="col-12  col-sm-4 d-flex  justify-content-start justify-content-sm-end fw-bold">
+                    Description :
+                </div>
+                <div class="col-12  col-sm-8">
+                    {{task.description}}
+                </div>
+            </div>
+            <hr />
+            <div class='row'>
+                <div class="col-12  col-sm-4 d-flex  justify-content-start justify-content-sm-end fw-bold">
+                    Images :
+                </div>
+                <div class="col-12  col-sm-8">
+                    {% if images %}
+                    <div class="row">
+                        {% for img in images %}
+                        <div class="col-12 mb-5">
+                            <img class="img-fluid" src="{{img.image.url}}" alt="taskImg" />
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            <hr />
+
+
             <div>
 
             </div>
