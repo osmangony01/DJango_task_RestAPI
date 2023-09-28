@@ -1,0 +1,30 @@
+{% extends 'index.html' %}
+
+{% block content%}
+
+<div class="container p-4">
+    <div style="width: 500px; margin:auto" class="border p-4 rounded border-info">
+        <h2 class="text-center my-3">Sign In</h2>
+        <form class="px-4" method="POST" action="{% url 'login' %}">
+            {% csrf_token %}
+            <hr class="my-5" />
+            <div class="mb-3">
+                <label for="" class="form-label">Username</label>
+                <input type="text" name="uname" class="form-control" id="" placeholder="Enter username" required="">
+            </div>
+            <div class="mb-3">
+                <label for="" class="form-label">Password</label>
+                <input type="password" name="pass" class="form-control" id="" placeholder="Enter password" required="">
+            </div>
+           
+            <div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+        </form>
+        <div class="d-flex justify-content-end mb-3">
+            <span>Don't have an account? <a href="{% url 'register' %}">Sign Up</a></span>
+          </div>
+    </div>
+</div>
+
+{%endblock%}
