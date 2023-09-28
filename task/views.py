@@ -18,7 +18,10 @@ class AllTaskView(TemplateView):
     
     def post(self, request, *args, **kwargs):
         search_title = request.POST.get('search_title', '') 
+        tasks = Task.objects.filter(title__icontains=search_title)
         print(search_title)
+        context = { 'task': tasks}
+        return render(request, self.template_name, context)
     
 
 class AddTaskView(TemplateView):
