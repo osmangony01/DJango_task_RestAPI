@@ -1,6 +1,6 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from django.views.generic.base import TemplateView
+from django.views.generic.base import TemplateView, View, RedirectView
 from . form import  TaskForm, TaskImageForm
 # from django.forms import formset_factory
 from django.forms import modelformset_factory
@@ -37,7 +37,44 @@ class AddTaskView(TemplateView):
                 task_image = TaskImage(task=task, image=image)
                 task_image.save()
 
-            return HttpResponse('Data saved successfully.')
+            return redirect('home')
 
         return HttpResponse('Error in form submission.')
     
+    
+class EditTaskView(View):
+    #template_name = 'task/editTask.html'
+    def get(self, request, pk):
+        task = Task.objects.get(id=pk)
+        print(task)
+        task_images = TaskImage.objects.filter(task=pk)
+        print(task_images)
+        fm = TaskForm(instance=task)
+        
+        for task_image in task_images:
+            print(f"Image: {task_image.image.url}")
+            
+        context = {'task':task, 'images':task_images, 'fm':fm}
+        return render(request, 'task/editTask.html', context) 
+    
+    def post(self, request, *args, **kwargs):
+        pass
+    
+    
+
+
+class DeleteTaskView(RedirectView):
+    url = '/task'
+    def get_redirect_url(self, *args, **kwargs):
+        print(kwargs['pk'])
+        del_id = kwargs['pk']
+        Task.objects.get(pk=del_id).delete()
+        return super().get_redirect_url(*args, **kwargs)
+
+
+class DetailsTaskView(TemplateView):
+    def get(self, request, pk):
+        task = Task.objects.get(id=pk)
+        task_images = TaskImage.objects.filter(task=pk)
+        context = {'task':task, 'images':task_images}
+        return render(request, 'task/detailsTask.html', context) 
