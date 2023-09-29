@@ -16,6 +16,7 @@
 
 - For this assignment task, I create there app like **authAPP** for user authentication, **task** for task management, **apiApp** for handling Django RestAPI. For task app, I create two model one for task data and another one is for task images , task images model have foreign key relation with task model
 
+- To access Django-admin, then create a super user using this command like "python manage.py createsuperuser"
 
 ### Here I developed Django RestAPI
  
