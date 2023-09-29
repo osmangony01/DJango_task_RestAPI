@@ -4,7 +4,7 @@ from django.contrib.auth import authenticate, logout
 from django.contrib.auth import login as auth_login
 from django.contrib.auth.decorators import login_required
 
-@login_required(login_url="login")
+# @login_required(login_url="login")
 # Create your views here.
 
 def register(request):

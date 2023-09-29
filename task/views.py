@@ -8,13 +8,13 @@ from . models import Task, TaskImage
 from datetime import date, datetime
 import json
 from django.contrib.auth.decorators import login_required
-
+from django.contrib.auth.mixins import LoginRequiredMixin
 # @login_required(login_url="login")
 
 # Create your views here.
-class AllTaskView(TemplateView):
+class AllTaskView(LoginRequiredMixin, TemplateView):
     template_name = 'task/showTask.html'
-    
+    login_url = 'login'
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         task = Task.objects.all()
@@ -63,8 +63,10 @@ class AllTaskView(TemplateView):
         return render(request, self.template_name, context)
     
 
-class AddTaskView(TemplateView):
+class AddTaskView(LoginRequiredMixin, TemplateView):
     template_name = "task/addTask.html"
+    login_url = 'login'
+    
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(**kwargs)
         fm = TaskForm()
@@ -89,8 +91,9 @@ class AddTaskView(TemplateView):
         return HttpResponse('Error in form submission.')
     
     
-class EditTaskView(View):
+class EditTaskView(LoginRequiredMixin, View):
     #template_name = 'task/editTask.html'
+    login_url = 'login'
     def get(self, request, pk):
         task = Task.objects.get(id=pk)
         #print(task)
@@ -120,7 +123,8 @@ class DeleteTaskView(RedirectView):
         return super().get_redirect_url(*args, **kwargs)
 
 
-class DetailsTaskView(TemplateView):
+class DetailsTaskView(LoginRequiredMixin, TemplateView):
+    login_url = 'login'
     def get(self, request, pk):
         task = Task.objects.get(id=pk)
         task_images = TaskImage.objects.filter(task=pk)

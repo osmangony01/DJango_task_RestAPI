@@ -15,8 +15,7 @@ def home(request):
     return HttpResponse('ok')
 
 
-class TaskList(APIView):
-   
+class TaskList( APIView):
     def get(self, request, format=None):
         task = Task.objects.all()
         serializer = TaskSerializer(task, many=True)
@@ -31,7 +30,6 @@ class TaskList(APIView):
 
 
 class TaskDetail(APIView):
-    
     def get_object(self, pk):
         try:
             return Task.objects.get(pk=pk)
@@ -58,7 +56,6 @@ class TaskDetail(APIView):
     
     
 class TaskImageList(APIView):
-   
     def get(self, request, format=None):
         images = TaskImage.objects.all()
         serializer = TaskImageSerializer(images, many=True)
