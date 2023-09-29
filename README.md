@@ -10,6 +10,9 @@
 
 - Create makemigrations and migrate
 
+- After run migrate command, you can run the project using this command like  
+    
+    **python manage.py runserver**
 
 - For this assignment task, I create there app like **authAPP** for user authentication, **task** for task management, **apiApp** for handling Django RestAPI. For task app, I create two model one for task data and another one is for task images , task images model have foreign key relation with task model
 
@@ -23,6 +26,7 @@
   => Handle method (GET, PUT, DELETE) each task = http://127.0.0.1:8000/api/task/{key}/
 
 - TaskImage API are -
+
   => Handle method (GET) = http://127.0.0.1:8000/api/taskImage/
 
 ---
