@@ -16,9 +16,10 @@
                 <form action="{% url 'home' %}" method="POST">
                     {% csrf_token %}
                     <div class="input-group mb-3">
-                        <input type="text" name="search_title" class="form-control" placeholder="Search by title" aria-describedby="button-addon2">
+                        <input type="text" name="search_title" class="form-control" placeholder="Search by title"
+                            aria-describedby="button-addon2">
                         <button class="btn btn-outline-primary" type="submit" id="button-addon2">Search</button>
-                      </div>
+                    </div>
                 </form>
             </div>
         </div>
@@ -41,36 +42,36 @@
         <form method="POST" action="{% url 'home' %}" class="row mb-4">
             {% csrf_token %}
             <div class="col-12 mb-2 mb-md-0 col-sm-6 col-md-3">
-                <label class="mb-1" >Creation Date:</label>
-                <input type="date" name="creation_date"  class="form-control" >
+                <label class="mb-1">Creation Date:</label>
+                <input type="date" name="creation_date" class="form-control">
             </div>
             <div class="col-12 mb-2 mb-md-0 col-sm-6 col-md-3">
-                <label class="mb-1" >Due Date:</label>
-                <input type="date" name="due_date"  class="form-control" />
+                <label class="mb-1">Due Date:</label>
+                <input type="date" name="due_date" class="form-control" />
             </div>
             <div class="col-12 mb-2 mb-md-0 col-sm-5 col-md-2">
-                <label class="mb-1"  >Priority:</label>
+                <label class="mb-1">Priority:</label>
                 <select name="priority" class="form-select">
                     <option value="" disabled>Select Priority</option>
-                    <option value="Low" >Low</option>
-                    <option value="Medium" >Medium</option>
-                    <option value="High" >High</option>
+                    <option value="Low">Low</option>
+                    <option value="Medium">Medium</option>
+                    <option value="High">High</option>
                 </select>
             </div>
             <div class="col-12 mb-2 mb-md-0 col-sm-5 col-md-2 ">
-                <label class="mb-1" >Mark as: </label>
-                <select name="mark"  class="form-select">
+                <label class="mb-1">Mark as: </label>
+                <select name="mark" class="form-select">
                     <option value="" disabled>Select</option>
-                    <option value="true" >Completed</option>
-                    <option value="false" >Pending</option>
+                    <option value="true">Completed</option>
+                    <option value="false">Pending</option>
                 </select>
             </div>
-            
+
             <div class="col-12 col-sm-2 col-md-2 d-flex justify-content-end align-items-center  mt-3">
                 <button type="submit" class="btn btn-success">Filter</button>
             </div>
         </form>
-        
+
 
         <div class="">
             {% if task %}
@@ -85,7 +86,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    
+
                     {% for t in task%}
                     <tr>
                         <td>{{t.title}}</td>
@@ -102,40 +103,46 @@
 
                             <a href="{% url 'details-task' pk=t.id %}"
                                 class="btn btn-outline-primary btn-sm mx-2 my-1">Details</a>
-                            <a href="{% url 'edit-task' pk=t.id %}" class="btn btn-outline-success btn-sm mx-2 my-1">Edit</a>
+                            <a href="{% url 'edit-task' pk=t.id %}"
+                                class="btn btn-outline-success btn-sm mx-2 my-1">Edit</a>
                             <!-- <form class="d-inline" method="POST" action="{% url 'delete-task' pk=t.id %}">
                                 {% csrf_token %}
                                 <button type="submit" class="btn btn-outline-danger btn-sm mx-2">Delete</button>
                             </form> -->
-                            <button type="button" class="btn btn-outline-danger btn-sm mx-2 my-1" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                            <button type="button" class="btn btn-outline-danger btn-sm mx-2 my-1" data-bs-toggle="modal"
+                                data-bs-target="#staticBackdrop{{t.id}}">
                                 Delete
-                              </button>
-
-                        </td>
-                        <!-- Modal -->
-                        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false"
-                            tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                            <div class="modal-dialog modal-dialog-centered">
-                                <div class="modal-content">
-                                    <div class="modal-body my-4">
-                                        <div class="pt-3">
-                                            <h2  class="text-center">Are you sure?</h2>
-                                            <h5 class="text-center py-2">You want to delete this!</h5>
-                                            <div class="my-4 d-flex justify-content-center align-items-center gap-3">
-                                                <!-- <button type="button" class="btn btn-primary">Yes, delete it!</button> -->
-                                                <form class="d-inline" method="POST" action="{% url 'delete-task' pk=t.id %}">
-                                                    {% csrf_token %}
-                                                    <button type="submit" data-bs-dismiss="modal" class="btn btn-primary">Yes, delete it!</button>
-                                                </form> 
-                                                <button type="button" class="btn btn-danger"
-                                                data-bs-dismiss="modal">Cancel</button>
+                            </button>
+                            <!-- Modal -->
+                            <div class="modal fade" id="staticBackdrop{{t.id}}" data-bs-backdrop="static"
+                                data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel"
+                                aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content">
+                                        <div class="modal-body my-4">
+                                            <div class="pt-3">
+                                                <h2 class="text-center">Are you sure?</h2>
+                                                <h5 class="text-center py-2">You want to delete this!</h5>
+                                                <div
+                                                    class="my-4 d-flex justify-content-center align-items-center gap-3">
+                                                    <!-- <button type="button" class="btn btn-primary">Yes, delete it!</button> -->
+                                                    <form class="d-inline" method="POST"
+                                                        action="{% url 'delete-task' pk=t.id %}">
+                                                        {% csrf_token %}
+                                                        <button type="submit" data-bs-dismiss="modal"
+                                                            class="btn btn-primary">Yes, delete it!</button>
+                                                    </form>
+                                                    <button type="button" class="btn btn-danger"
+                                                        data-bs-dismiss="modal">Cancel</button>
+                                                </div>
                                             </div>
                                         </div>
+
                                     </div>
-                                    
                                 </div>
                             </div>
-                        </div>
+                        </td>
+
                     </tr>
                     {% endfor %}
                 </tbody>
