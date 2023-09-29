@@ -11,6 +11,8 @@ class Task(models.Model):
     is_complete = models.BooleanField(default=False)
     created_at = models.DateTimeField(default=timezone.now) 
     
+    uname = models.CharField(max_length=100,  blank=True)
+     
     def save(self, *args, **kwargs):
         if not self.id:
             self.created_at = timezone.now()

@@ -5,6 +5,7 @@ class TaskForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(TaskForm, self).__init__(*args, **kwargs)
         self.fields['is_complete'].required = False
+        self.fields['uname'].required = False
         
     PRIORITY_CHOICES = [
         ('Low', 'Low'),
@@ -17,11 +18,11 @@ class TaskForm(forms.ModelForm):
     due_date=forms.DateField(widget=forms.DateInput(format=('%Y-%m-%d'),attrs={'class': 'form-control', 'type': 'date'}))
     priority = forms.ChoiceField(choices=PRIORITY_CHOICES, widget=forms.Select(attrs={'class': 'form-control'}))
     is_complete = forms.BooleanField(widget=forms.CheckboxInput(attrs={'class': 'form-check-input'}))
-    #created_at = forms.DateTimeField()
-
+    #created_at = forms.DateTimeField() 'username'
+    uname = forms.CharField(widget=forms.TextInput())
     class Meta:
         model = Task
-        fields = ['title', 'description', 'due_date', 'priority', 'is_complete']
+        fields = ['title', 'description', 'due_date', 'priority', 'is_complete','uname' ]
         
     
 

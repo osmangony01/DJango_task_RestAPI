@@ -17,16 +17,18 @@ class AllTaskView(LoginRequiredMixin, TemplateView):
     login_url = 'login'
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        task = Task.objects.all()
+        username = self.request.user.username
+        task = Task.objects.filter(uname=username)
         print(task)
         context = {'task':task}
         return context
     
     def post(self, request, *args, **kwargs):
-        
+        username = self.request.user.username
         search_title = request.POST.get('search_title', '') 
         if search_title:
-            tasks = Task.objects.filter(title__icontains=search_title)
+           
+            tasks = Task.objects.filter(uname=username, title__icontains=search_title)
             print('search :: '+search_title)
         else:
             #tasks = Task.objects.all()
@@ -37,27 +39,27 @@ class AllTaskView(LoginRequiredMixin, TemplateView):
             # print(creation_date, due_date, priority, is_complete)
             
             # Start with all tasks
-            tasks = Task.objects.all()
+            tasks = Task.objects.filter(uname=username)
 
             # Apply filters based on criteria
             if creation_date:   # Filter by creation date
                 #print('create_date :'+creation_date)
                 input_creation_date = datetime.strptime(creation_date, '%Y-%m-%d').date()
-                tasks = tasks.filter(created_at__gte=input_creation_date)
+                tasks = tasks.filter(uname=username, created_at__gte=input_creation_date)
 
             if due_date: # Filter by due date
                 print('due date :'+ due_date) 
                 input_due_date = datetime.strptime(due_date, '%Y-%m-%d').date()
-                tasks = tasks.filter(due_date__gte=input_due_date)
+                tasks = tasks.filter(uname=username, due_date__gte=input_due_date)
 
             if priority: # Filter by priority
                 print('priority :' +priority)
-                tasks = tasks.filter(priority__icontains=priority)
+                tasks = tasks.filter(uname=username, priority__icontains=priority)
 
             if is_complete: # Filter by completion status
                 print('mark :'+is_complete)
                 status = json.loads(is_complete.lower())
-                tasks = tasks.filter(is_complete=status)
+                tasks = tasks.filter(uname=username, is_complete=status)
             
         context = { 'task': tasks}
         return render(request, self.template_name, context)
@@ -76,10 +78,18 @@ class AddTaskView(LoginRequiredMixin, TemplateView):
         return context
     
     def post(self, request, *args, **kwargs):
+        uname = request.user.username
+        print(uname)
+        #initial={'username': username}
         task_form = TaskForm(request.POST)
+        task_form.fields['uname'].initial = uname
+        
         print(task_form)
         if task_form.is_valid():
-            task = task_form.save()  # Create the Task
+            # task = task_form.save()  # Create the Task
+            task = task_form.save(commit=False)  # Create the Task but don't save it yet
+            task.uname = uname  # Set the 'uname' field
+            task.save()  # Save the Task with the 'uname' field
 
             # Process the uploaded images and create TaskImage instances
             for image in request.FILES.getlist('image'):
@@ -108,8 +118,13 @@ class EditTaskView(LoginRequiredMixin, View):
     
     def post(self, request, pk):
         task = Task.objects.get(id=pk)
+        uname = request.user.username
         fm =TaskForm(request.POST, instance=task)
+        #fm.instance.uname = uname
+        print(uname)
         if fm.is_valid():
+            task = fm.save(commit=False)  # Create the Task but don't save it yet
+            task.uname = uname
             fm.save()
         return redirect('home')
     

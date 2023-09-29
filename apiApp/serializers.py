@@ -7,7 +7,7 @@ from datetime import date
 class TaskSerializer(serializers.ModelSerializer):
     class Meta:
         model = Task
-        fields = ['id','title', 'description', 'due_date', 'priority', 'is_complete', ]
+        fields = ['id','title', 'description', 'due_date', 'priority', 'is_complete', 'uname']
     
     
 class TaskImageSerializer(serializers.ModelSerializer):
