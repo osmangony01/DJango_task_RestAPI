@@ -3,11 +3,6 @@ from django.utils import timezone
 from datetime import date
 
 class Task(models.Model):
-    # PRIORITY_CHOICES = [
-    #     ('Low', 'Low'),
-    #     ('Medium', 'Medium'),
-    #     ('High', 'High'),
-    # ]
     
     title = models.CharField(max_length=255, blank=True)
     description = models.TextField(blank=True)

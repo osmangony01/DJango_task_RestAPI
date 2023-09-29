@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     # custom app
     'authApp',
     'task',
+    'apiApp',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [

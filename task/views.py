@@ -30,49 +30,37 @@ class AllTaskView(TemplateView):
             print('search :: '+search_title)
         else:
             #tasks = Task.objects.all()
-            
             creation_date = request.POST.get('creation_date', '')
             due_date = request.POST.get('due_date', '')
             priority = request.POST.get('priority', '')
             is_complete = request.POST.get('mark', '')
-            
             # print(creation_date, due_date, priority, is_complete)
             
-            
-          
             # Start with all tasks
             tasks = Task.objects.all()
 
             # Apply filters based on criteria
-            if creation_date:
-                print('create_date :'+creation_date)
-                # Filter by creation date
+            if creation_date:   # Filter by creation date
+                #print('create_date :'+creation_date)
                 input_creation_date = datetime.strptime(creation_date, '%Y-%m-%d').date()
                 tasks = tasks.filter(created_at__gte=input_creation_date)
 
-            if due_date:
-                print('due date :'+ due_date)
-                # Filter by due date
+            if due_date: # Filter by due date
+                print('due date :'+ due_date) 
                 input_due_date = datetime.strptime(due_date, '%Y-%m-%d').date()
                 tasks = tasks.filter(due_date__gte=input_due_date)
 
-            if priority:
+            if priority: # Filter by priority
                 print('priority :' +priority)
-                # Filter by priority
                 tasks = tasks.filter(priority__icontains=priority)
 
-            if is_complete:
-                # Filter by completion status
+            if is_complete: # Filter by completion status
                 print('mark :'+is_complete)
                 status = json.loads(is_complete.lower())
                 tasks = tasks.filter(is_complete=status)
             
-                
-        
         context = { 'task': tasks}
-        
         return render(request, self.template_name, context)
-        #return redirect('home', context)
     
 
 class AddTaskView(TemplateView):
@@ -122,8 +110,6 @@ class EditTaskView(View):
             fm.save()
         return redirect('home')
     
-    
-
 
 class DeleteTaskView(RedirectView):
     url = '/task'
